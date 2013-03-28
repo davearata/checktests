@@ -25,6 +25,6 @@ public abstract class TestClassDetector {
      * @return the list of test classes found during analysis
      * @throws ProcessCanceledException
      */
-    public abstract Set<PsiClass> findTestClasses(final List<VirtualFile> virtualFiles)
+    public abstract Set<PsiClass> findTestClasses(final List<VirtualFile> virtualFiles, final int levelsToSearch)
             throws ProcessCanceledException;
 }

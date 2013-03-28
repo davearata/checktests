@@ -2,17 +2,14 @@
     <id>com.conductor.checktests</id>
     <name>Check Tests</name>
     <version>1.1</version>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="darata@conductor.com" url="http://conductor.com">Dave Arata</vendor>
 
-    <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <small>most HTML tags may be used</small>
-      ]]></description>
+    <description>Using the IntelliJ index this plugin will find usages on file(s) you have selected with right click or
+        you are going to commit and try to find TestClasses that are being referenced. You will then be asked if you
+        would like to run the tests.
+    </description>
 
-    <change-notes><![CDATA[
-      Add change notes here.<br>
-      <small>most HTML tags may be used</small>
-      ]]>
+    <change-notes>
     </change-notes>
 
     <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
@@ -37,9 +34,18 @@
         <!-- Add your actions here -->
         <action id="CheckTests.CheckTestAction" class="com.conductor.checktests.CheckTestAction"
                 text="Check for Tests" description="Analyze file and find associated Test Classes">
+        </action>
+        <action id="CheckTests.CheckTestSearchLeavelGroup"
+                class="com.conductor.checktests.CheckTestsSearchLevelActionGroup"
+                description="Choose how many recursive searches to perform to find tests">
+        </action>
+        <group id="CheckTests.CheckTestActionMenu" text="Check For Tests" popup="true">
+            <reference ref="CheckTests.CheckTestAction"/>
+            <separator/>
+            <reference ref="CheckTests.CheckTestSearchLeavelGroup"/>
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-        </action>
+        </group>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -47,5 +53,8 @@
         <checkinHandlerFactory implementation="com.conductor.checktests.CheckTestsCheckinHandlerFactory"/>
         <projectService serviceInterface="com.conductor.checktests.TestClassDetector"
                         serviceImplementation="com.conductor.checktests.TestClassDetectorImpl"/>
+
+        <projectService serviceInterface="com.conductor.checktests.CheckTestsConfiguration"
+                        serviceImplementation="com.conductor.checktests.CheckTestsConfiguration"/>
     </extensions>
 </idea-plugin>

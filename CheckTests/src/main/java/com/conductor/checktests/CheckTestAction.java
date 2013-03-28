@@ -54,7 +54,7 @@ public class CheckTestAction extends AnAction {
     }
 
     // VisibleForTesting
-    void checkForTests(AnActionEvent event, Project project) {
+    public static void checkForTests(AnActionEvent event, Project project) {
         final VirtualFile[] virtualFiles = event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
 
         final Set<PsiClass> testClasses;
@@ -64,14 +64,16 @@ public class CheckTestAction extends AnAction {
             testClasses = Sets.newHashSet();
         }
 
-        if (testClasses != null && testClasses.size() > 0) {
+        if (testClasses != null) {
             showDialog(project, Lists.newArrayList(testClasses));
         }
     }
 
-    //VisibleForTesting
-    Set<PsiClass> getTestClasses(Project project, VirtualFile[] virtualFiles) {
-        return TestClassDetector.getInstance(project).findTestClasses(Lists.newArrayList(virtualFiles));
+    // VisibleForTesting
+    static Set<PsiClass> getTestClasses(Project project, VirtualFile[] virtualFiles) {
+        final CheckTestsConfiguration settings = CheckTestsConfiguration.getInstance(project);
+        return TestClassDetector.getInstance(project).findTestClasses(Lists.newArrayList(virtualFiles),
+                settings.LEVELS_TO_CHECK_FOR_TESTS);
     }
 
     // VisibleForTesting
@@ -84,8 +86,8 @@ public class CheckTestAction extends AnAction {
         Messages.showMessageDialog(project, message, title, null);
     }
 
-    //VisibleForTesting
-    void showDialog(final Project project, final List<PsiClass> testClasses) {
+    // VisibleForTesting
+    static void showDialog(final Project project, final List<PsiClass> testClasses) {
         final DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setTitle("CheckTests Results");
         final JTextArea textArea = new JTextArea(10, 50);

@@ -42,7 +42,7 @@ public class TestClassDetectorImpl extends TestClassDetector {
     }
 
     @Override
-    public Set<PsiClass> findTestClasses(final List<VirtualFile> virtualFiles) throws ProcessCanceledException {
+    public Set<PsiClass> findTestClasses(final List<VirtualFile> virtualFiles, final int levelsToSearch) throws ProcessCanceledException {
         final Set<PsiClass> result = Sets.newHashSet();
         boolean completed = ProgressManager.getInstance().runProcessWithProgressSynchronously(new Runnable() {
             @Override
@@ -59,7 +59,7 @@ public class TestClassDetectorImpl extends TestClassDetector {
                         }
                         referenceSearchElements.addAll(getReferenceSearchElements(virtualFile));
                     }
-                    result.addAll(findTestClasses(referenceSearchElements));
+                    result.addAll(findTestClasses(referenceSearchElements, levelsToSearch));
                 } catch (Exception e) {
                     LOG.error(e);
                     myException = e;
@@ -92,9 +92,18 @@ public class TestClassDetectorImpl extends TestClassDetector {
     }
 
     // VisibleForTesting
-    Set<PsiClass> findTestClasses(final LinkedList<PsiElement> psiElementsToSearch) {
+    Set<PsiClass> findTestClasses(final LinkedList<PsiElement> psiElementsToSearch, final int levelsToSearch) {
         final Set<PsiClass> testClasses = new HashSet<PsiClass>();
+        int currentSearchLevel = 1;
+        int lastIndexForCurrentSearchLevel = psiElementsToSearch.size() - 1;
         for(int idx = 0; idx < psiElementsToSearch.size(); idx++) {
+            if(idx > lastIndexForCurrentSearchLevel) {
+                currentSearchLevel++;
+                lastIndexForCurrentSearchLevel = psiElementsToSearch.size() - 1;
+            }
+            if(currentSearchLevel > levelsToSearch && levelsToSearch != 0) {
+                break;
+            }
             final PsiElement psiElementToSearch = psiElementsToSearch.get(idx);
             final List<PsiReference> psiReferences = new ArrayList<PsiReference>();
 
