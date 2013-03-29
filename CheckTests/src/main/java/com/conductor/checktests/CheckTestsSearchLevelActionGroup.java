@@ -1,10 +1,15 @@
 package com.conductor.checktests;
 
+import java.util.Set;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.google.common.collect.Lists;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiClass;
 
 /**
  * Created with IntelliJ IDEA. User: darata Date: 3/28/13 Time: 3:52 PM
@@ -73,9 +78,19 @@ public class CheckTestsSearchLevelActionGroup extends ActionGroup {
             if (state) {
                 final CheckTestsConfiguration checkTestsConfiguration = CheckTestsConfiguration.getInstance(project);
                 checkTestsConfiguration.LEVELS_TO_CHECK_FOR_TESTS = levelsToSearch;
-                if(performAction) {
-                    CheckTestAction.checkForTests(e, project);
+                if (performAction) {
+                    checkForTests(e, project);
                 }
+            }
+        }
+
+        private void checkForTests(final AnActionEvent event, final Project project) {
+            final VirtualFile[] virtualFiles = event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
+            if (virtualFiles != null && virtualFiles.length > 0) {
+                final CheckTestsConfiguration settings = CheckTestsConfiguration.getInstance(project);
+                final Set<PsiClass> testClasses = TestClassDetector.getInstance(project).findTestClasses(
+                        Lists.newArrayList(virtualFiles), settings.LEVELS_TO_CHECK_FOR_TESTS);
+                CheckTestAction.showDialog(project, Lists.newArrayList(testClasses));
             }
         }
     }

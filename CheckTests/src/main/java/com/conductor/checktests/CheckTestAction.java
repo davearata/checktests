@@ -50,27 +50,22 @@ public class CheckTestAction extends AnAction {
             return;
         }
 
-        checkForTests(event, project);
+        checkTests(event, project);
     }
 
     // VisibleForTesting
-    public static void checkForTests(AnActionEvent event, Project project) {
+    void checkTests(final AnActionEvent event, final Project project) {
         final VirtualFile[] virtualFiles = event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
-
-        final Set<PsiClass> testClasses;
         if (virtualFiles != null && virtualFiles.length > 0) {
-            testClasses = getTestClasses(project, virtualFiles);
-        } else {
-            testClasses = Sets.newHashSet();
-        }
-
-        if (testClasses != null) {
-            showDialog(project, Lists.newArrayList(testClasses));
+            final Set<PsiClass> testClasses = getTestClasses(project, virtualFiles);
+            if(testClasses != null) {
+                showTestListDialog(project, Lists.newArrayList(testClasses));
+            }
         }
     }
 
     // VisibleForTesting
-    static Set<PsiClass> getTestClasses(Project project, VirtualFile[] virtualFiles) {
+    Set<PsiClass> getTestClasses(Project project, VirtualFile[] virtualFiles) {
         final CheckTestsConfiguration settings = CheckTestsConfiguration.getInstance(project);
         return TestClassDetector.getInstance(project).findTestClasses(Lists.newArrayList(virtualFiles),
                 settings.LEVELS_TO_CHECK_FOR_TESTS);
@@ -84,6 +79,10 @@ public class CheckTestAction extends AnAction {
     // VisibleForTesting
     void showMessageDialog(final Project project, final String message, final String title) {
         Messages.showMessageDialog(project, message, title, null);
+    }
+
+    void showTestListDialog(final Project project, final List<PsiClass> testClasses) {
+        showDialog(project, testClasses);
     }
 
     // VisibleForTesting

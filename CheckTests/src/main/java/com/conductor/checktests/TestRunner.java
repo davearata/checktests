@@ -2,21 +2,17 @@ package com.conductor.checktests;
 
 import java.util.List;
 
-import com.intellij.execution.ExecutionManager;
-import com.intellij.execution.ExecutionTarget;
-import com.intellij.execution.ExecutionTargetManager;
-import com.intellij.execution.Executor;
-import com.intellij.execution.RunManager;
-import com.intellij.execution.RunManagerEx;
-import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.execution.*;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl;
 import com.intellij.execution.junit.JUnitConfiguration;
 import com.intellij.execution.testframework.TestSearchScope;
 import com.intellij.execution.ui.RunContentDescriptor;
+import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 
 /**
@@ -24,6 +20,16 @@ import com.intellij.psi.PsiClass;
  */
 public class TestRunner {
     public static void runTest(final Project project, final List<PsiClass> testClasses) {
+        // first compile our test classes
+        final CompilerManager compilerManager = CompilerManager.getInstance(project);
+        final VirtualFile[] files = new VirtualFile[testClasses.size()];
+        int idx = 0;
+        for (final PsiClass testClass : testClasses) {
+            files[idx] = testClass.getContainingFile().getVirtualFile();
+            idx++;
+        }
+        compilerManager.compile(files, null);
+
         final RunManagerEx instanceEx = RunManagerEx.getInstanceEx(project);
         final RunnerAndConfigurationSettings configuration = getConfiguration(instanceEx, testClasses);
         if (configuration == null) {
@@ -56,7 +62,6 @@ public class TestRunner {
                 .createRunConfiguration("CheckTests", type.getConfigurationFactories()[0]);
         final JUnitConfiguration conf = (JUnitConfiguration) runnerAndConfigurationSettings.getConfiguration();
         conf.bePatternConfiguration(testClasses, null);
-        //conf.setMainClass(testClasses.get(0));
         final JUnitConfiguration.Data data = conf.getPersistentData();
         data.setScope(TestSearchScope.WHOLE_PROJECT);
         return runnerAndConfigurationSettings;

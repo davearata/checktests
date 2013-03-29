@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.intellij.execution.junit.JUnitUtil;
 import com.intellij.openapi.vcs.VcsBundle;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -141,10 +142,6 @@ public class TestClassDetectorImpl extends TestClassDetector {
      *            the class to add
      */
     private boolean isTestClass(final PsiClass newPsiClass) {
-        if (newPsiClass == null) {
-            return false;
-        }
-        final String name = newPsiClass.getName();
-        return name != null && name.contains("Test");
+        return JUnitUtil.isTestClass(newPsiClass);
     }
 }

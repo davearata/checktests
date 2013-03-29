@@ -50,7 +50,7 @@ public class CheckTestActionTest {
         checkTestActionSpy.actionPerformed(anActionEvent);
         Mockito.verify(checkTestActionSpy).showMessageDialog(project, CheckTestAction.MESSAGE_DISPOSED,
                 CheckTestAction.TITLE_DISPOSED);
-        Mockito.verify(checkTestActionSpy, Mockito.never()).checkForTests(anActionEvent, project);
+        Mockito.verify(checkTestActionSpy, Mockito.never()).checkTests(anActionEvent, project);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class CheckTestActionTest {
         checkTestActionSpy.actionPerformed(anActionEvent);
         Mockito.verify(checkTestActionSpy).showMessageDialog(project, CheckTestAction.MESSAGE_DUMB,
                 CheckTestAction.TITLE_DUMB);
-        Mockito.verify(checkTestActionSpy, Mockito.never()).checkForTests(anActionEvent, project);
+        Mockito.verify(checkTestActionSpy, Mockito.never()).checkTests(anActionEvent, project);
     }
 
     @Test
@@ -83,9 +83,9 @@ public class CheckTestActionTest {
         Mockito.doNothing().when(checkTestActionSpy)
                 .showMessageDialog(Mockito.any(Project.class), Mockito.anyString(), Mockito.anyString());
         Mockito.doReturn(false).when(checkTestActionSpy).projectIsDumb(project);
-        Mockito.doNothing().when(checkTestActionSpy).checkForTests(anActionEvent, project);
+        Mockito.doNothing().when(checkTestActionSpy).checkTests(anActionEvent, project);
         checkTestActionSpy.actionPerformed(anActionEvent);
-        Mockito.verify(checkTestActionSpy).checkForTests(anActionEvent, project);
+        Mockito.verify(checkTestActionSpy).checkTests(anActionEvent, project);
     }
 
     @Test
@@ -94,10 +94,10 @@ public class CheckTestActionTest {
         final Project project = Mockito.mock(Project.class);
         final CheckTestAction checkTestActionSpy = Mockito.spy(checkTestAction);
         Mockito.when(anActionEvent.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY)).thenReturn(null);
-        checkTestActionSpy.checkForTests(anActionEvent, project);
+        checkTestActionSpy.checkTests(anActionEvent, project);
         Mockito.verify(checkTestActionSpy, Mockito.never()).getTestClasses(Mockito.any(Project.class),
                 Mockito.any(VirtualFile[].class));
-        Mockito.verify(checkTestActionSpy, Mockito.never()).showDialog(Mockito.any(Project.class),
+        Mockito.verify(checkTestActionSpy, Mockito.never()).showTestListDialog(Mockito.any(Project.class),
                 Mockito.anyListOf(PsiClass.class));
     }
 
@@ -110,8 +110,8 @@ public class CheckTestActionTest {
         final VirtualFile[] virtualFiles = new VirtualFile[] { virtualFile };
         Mockito.when(anActionEvent.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY)).thenReturn(virtualFiles);
         Mockito.doReturn(null).when(checkTestActionSpy).getTestClasses(project, virtualFiles);
-        checkTestActionSpy.checkForTests(anActionEvent, project);
-        Mockito.verify(checkTestActionSpy, Mockito.never()).showDialog(Mockito.any(Project.class),
+        checkTestActionSpy.checkTests(anActionEvent, project);
+        Mockito.verify(checkTestActionSpy, Mockito.never()).showTestListDialog(Mockito.any(Project.class),
                 Mockito.anyListOf(PsiClass.class));
     }
 
@@ -126,7 +126,8 @@ public class CheckTestActionTest {
         final Set<PsiClass> testClasses = new HashSet<PsiClass>();
         testClasses.add(Mockito.mock(PsiClass.class));
         Mockito.doReturn(testClasses).when(checkTestActionSpy).getTestClasses(project, virtualFiles);
-        checkTestActionSpy.checkForTests(anActionEvent, project);
-        Mockito.verify(checkTestActionSpy).showDialog(Mockito.any(Project.class), Mockito.anyListOf(PsiClass.class));
+        Mockito.doNothing().when(checkTestActionSpy).showTestListDialog(Mockito.any(Project.class), Mockito.anyListOf(PsiClass.class));
+        checkTestActionSpy.checkTests(anActionEvent, project);
+        Mockito.verify(checkTestActionSpy).showTestListDialog(Mockito.any(Project.class), Mockito.anyListOf(PsiClass.class));
     }
 }

@@ -17,17 +17,17 @@ import java.util.Set;
  * Date: 3/11/13
  * Time: 12:52 PM
  */
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class TestClassDetectorImplTest {
-    private TestClassDetectorImpl testClassDetector;
-
-    @Mock
-    private Project project;
-
-    @Before
-    public void setup() {
-        testClassDetector = new TestClassDetectorImpl(project);
-    }
+//    private TestClassDetectorImpl testClassDetector;
+//
+//    @Mock
+//    private Project project;
+//
+//    @Before
+//    public void setup() {
+//        testClassDetector = new TestClassDetectorImpl(project);
+//    }
 
 //    @Test
 //    public void testFindTestClasses() {
