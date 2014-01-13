@@ -1,15 +1,7 @@
-package com.conductor.checktests;
+package com.dacatech.checktests;
 
-import com.google.common.collect.Sets;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.

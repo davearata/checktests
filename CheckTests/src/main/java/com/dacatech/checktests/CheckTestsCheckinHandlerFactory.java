@@ -1,10 +1,9 @@
-package com.conductor.checktests;
+package com.dacatech.checktests;
 
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.changes.CommitContext;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.checkin.CheckinHandlerFactory;
-import com.intellij.openapi.vcs.checkin.CodeAnalysisBeforeCheckinHandler;
 import org.jetbrains.annotations.NotNull;
 
 /**

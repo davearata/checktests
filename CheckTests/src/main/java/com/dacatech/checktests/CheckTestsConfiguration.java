@@ -1,4 +1,4 @@
-package com.conductor.checktests;
+package com.dacatech.checktests;
 
 import org.jdom.Element;
 
@@ -15,7 +15,7 @@ import com.intellij.util.PlatformUtils;
  */
 @State(name = "CheckTestsConfiguration", storages = { @Storage(file = StoragePathMacros.WORKSPACE_FILE) })
 public class CheckTestsConfiguration implements PersistentStateComponent<Element> {
-    private static final Logger LOG = Logger.getInstance("#com.conductor.checktests.CheckTestsConfiguration");
+    private static final Logger LOG = Logger.getInstance("#com.dacatech.checktests.CheckTestsConfiguration");
     private Project project;
     public boolean CHECK_FOR_TESTS_BEFORE_PROJECT_COMMIT = !PlatformUtils.isPyCharm() && !PlatformUtils.isRubyMine();
     public int LEVELS_TO_CHECK_FOR_TESTS = 0;

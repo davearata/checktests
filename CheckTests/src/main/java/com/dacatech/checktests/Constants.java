@@ -1,4 +1,4 @@
-package com.conductor.checktests;
+package com.dacatech.checktests;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,5 +7,5 @@ package com.conductor.checktests;
  * Time: 11:32 AM
  */
 public abstract class Constants {
-    public static final String PLUGIN_ID = "com.conductor.checktests";
+    public static final String PLUGIN_ID = "com.com.checktests";
 }

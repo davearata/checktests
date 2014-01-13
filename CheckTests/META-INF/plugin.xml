@@ -1,8 +1,8 @@
-<idea-plugin version="2">
-    <id>com.conductor.checktests</id>
+<idea-plugin version="3">
+    <id>com.dacatech.checktests</id>
     <name>Check Tests</name>
-    <version>1.2</version>
-    <vendor email="darata@conductor.com" url="http://conductor.com">Dave Arata</vendor>
+    <version>1.3</version>
+    <vendor email="dave.arata@dacatech.com" url="https://github.com/davearata/checktests">Dave Arata</vendor>
 
     <description>Using the IntelliJ index this plugin will find usages on file(s) you have selected with right click or
         you are going to commit and try to find TestClasses that are being referenced. You will then be asked if you
@@ -32,11 +32,11 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="CheckTests.CheckTestAction" class="com.conductor.checktests.CheckTestAction"
+        <action id="CheckTests.CheckTestAction" class="com.dacatech.checktests.CheckTestAction"
                 text="Check for Tests" description="Analyze file and find associated Test Classes">
         </action>
         <action id="CheckTests.CheckTestSearchLeavelGroup"
-                class="com.conductor.checktests.CheckTestsSearchLevelActionGroup"
+                class="com.dacatech.checktests.CheckTestsSearchLevelActionGroup"
                 description="Choose how many recursive searches to perform to find tests">
         </action>
         <group id="CheckTests.CheckTestActionMenu" text="Check For Tests" popup="true">
@@ -50,11 +50,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <checkinHandlerFactory implementation="com.conductor.checktests.CheckTestsCheckinHandlerFactory"/>
-        <projectService serviceInterface="com.conductor.checktests.TestClassDetector"
-                        serviceImplementation="com.conductor.checktests.TestClassDetectorImpl"/>
+        <checkinHandlerFactory implementation="com.dacatech.checktests.CheckTestsCheckinHandlerFactory"/>
+        <projectService serviceInterface="com.dacatech.checktests.TestClassDetector"
+                        serviceImplementation="com.dacatech.checktests.TestClassDetectorImpl"/>
 
-        <projectService serviceInterface="com.conductor.checktests.CheckTestsConfiguration"
-                        serviceImplementation="com.conductor.checktests.CheckTestsConfiguration"/>
+        <projectService serviceInterface="com.dacatech.checktests.CheckTestsConfiguration"
+                        serviceImplementation="com.dacatech.checktests.CheckTestsConfiguration"/>
     </extensions>
 </idea-plugin>

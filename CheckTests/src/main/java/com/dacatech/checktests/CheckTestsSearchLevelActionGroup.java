@@ -1,4 +1,4 @@
-package com.conductor.checktests;
+package com.dacatech.checktests;
 
 import java.util.Set;
 
@@ -27,7 +27,7 @@ public class CheckTestsSearchLevelActionGroup extends ActionGroup {
             project = PlatformDataKeys.PROJECT.getData(dataContext);
         }
         if (project == null) {
-            throw new IllegalStateException("project is null");
+            return new AnAction[0];
         }
         return getChildActions(project, true);
     }

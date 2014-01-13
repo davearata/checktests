@@ -1,18 +1,15 @@
-package com.conductor.checktests;
+package com.dacatech.checktests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.intellij.execution.junit.JUnitUtil;
-import com.intellij.openapi.vcs.VcsBundle;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
@@ -35,7 +32,7 @@ import com.intellij.vcsUtil.Rethrow;
  */
 public class TestClassDetectorImpl extends TestClassDetector {
     private final Project myProject;
-    private static final Logger LOG = Logger.getInstance("#com.conductor.checktests.TestClassDetectorImpl");
+    private static final Logger LOG = Logger.getInstance("#com.dacatech.checktests.TestClassDetectorImpl");
     private Exception myException;
 
     public TestClassDetectorImpl(final Project project) {
